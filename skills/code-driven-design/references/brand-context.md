@@ -11,6 +11,7 @@ Record the purpose, audience, medium, content language, brand sources, required 
 | Screen interface | Existing repository/platform, target viewports, user journey, components, relevant interaction states |
 | Interactive explanation | Question or relationship to explain, data sources, inputs and model assumptions, presentation/viewing format |
 | Print collateral | Physical dimensions, sides/folds, destination links if needed, production specifications |
+| Logo/icon assets | Brand name and purpose, existing identity/icon system, intended placements and sizes, required mark/wordmark/lockup/family variants |
 
 Keep artifact language separate from supporting-document language: an English interface or insert can have Chinese implementation or factory notes.
 
@@ -36,7 +37,7 @@ Extract a compact set of tokens:
 | Imagery | Official product imagery and its composition |
 | Voice | Approved slogans, technical labels, and calls to action |
 
-Reference screenshots support direction; they do not establish an exact color specification. Preserve a real wordmark or logo rather than inventing a replacement. If a required source is inaccessible, use supplied assets and name the gap.
+Reference screenshots support direction; they do not establish an exact color specification. Preserve a real wordmark or logo unless the brief requests a new identity or redesign. If a required source is inaccessible, use supplied assets and name the gap. For identity construction and family-specific tests, read [logo-icons.md](logo-icons.md).
 
 Record asset provenance and font license status. A publicly served font is not automatically licensed for redistribution in a public skill repository. Project output may use a permitted font; the reusable skill should use generic examples or assets with clear redistribution rights. Do not commit user-brand assets or proprietary/system fonts merely because they are available locally.
 

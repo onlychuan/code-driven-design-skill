@@ -1,3 +1,15 @@
+# 1.2.0
+
+Logo and icon design are now explicit routes alongside cards and the general visual workflow.
+
+- Brand marks, wordmarks and lockups, with actual standalone vector delivery.
+- Coherent icon families with shared grid, strokes, optical weight and small-size checks.
+- A generic SVG asset study with 16/20/24/32 px previews and mark/icon exports.
+- Font-dependency, monochrome/reversed variant, transparent raster and accessible SVG guidance.
+- Existing digital, presentation and optional print workflows remain available.
+
+Extract the ZIP and use `install.cmd` on Windows or `bash install.sh` on macOS/Linux. For an existing skill, use `-Force` / `--force`; the previous version is preserved outside skill discovery.
+
 # 1.1.0
 
 Code-driven Design is now a general visual-design workflow, with print as one optional route.

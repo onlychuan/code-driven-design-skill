@@ -32,3 +32,11 @@ An independent non-print workflow produced a four-slide HTML presentation for a 
 ## CI
 
 The GitHub workflow runs installer, renderer and PDF checks on Windows, macOS and Linux. Check the current commit's Actions result for its platform status. CI output is not an ICC proof, PDF/X certification or a physical finishing/transport test.
+
+## Logo and icon scope in 1.2.0
+
+Logo marks, wordmarks, lockups and icon families have their own workflow. It preserves existing identity, distinguishes SVG geometry from embedded raster imagery, documents font dependencies, and checks optical consistency at intended small sizes and backgrounds.
+
+The generic vector study executes controls for palette, background, uniform icon stroke and asset selection. Its exported SVG is parsed to check standalone viewBox/geometry, accessibility, stroke style and absence of scripts, bitmaps, external references or live text. Combined system-font lettering is labeled preview-only and is not represented as outlined artwork.
+
+An independent vector workflow created a fictional brand mark plus search/settings/upload/download icons as five separate transparent SVGs. Browser inspection covered 16/24/32 px, light/dark backgrounds and each standalone file. XML checks confirmed a shared 24-unit icon grid and 2-unit stroke with no image/script/foreignObject/external references. The route did not introduce card scenes or factory output.

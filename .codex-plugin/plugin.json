@@ -1,13 +1,13 @@
 {
   "name": "code-driven-design-skill",
-  "version": "1.1.0",
-  "description": "Create editable websites, interfaces, interactive explainers, presentations and brand visuals through code.",
+  "version": "1.2.0",
+  "description": "Create editable logos, icons, websites, interfaces, interactive explainers, presentations and brand visuals through code.",
   "author": { "name": "onlychuan" },
   "homepage": "https://github.com/onlychuan/code-driven-design-skill",
   "skills": "./skills/",
   "interface": {
     "displayName": "代码驱动设计",
-    "shortDescription": "界面、信息图与交互视觉设计",
+    "shortDescription": "Logo、Icon 与通用视觉设计",
     "developerName": "onlychuan",
     "category": "Productivity"
   }

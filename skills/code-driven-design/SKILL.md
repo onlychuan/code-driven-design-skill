@@ -1,6 +1,6 @@
 ---
 name: code-driven-design
-description: "Create and refine visual designs in code: responsive websites and interface prototypes, diagrams and infographics, interactive explainers and tools, HTML presentations, and brand/print collateral. Use for code-driven visual design with editable source and real previews; not routine nonvisual coding, data analysis alone, or bitmap-only image editing."
+description: "Create and refine visual designs in code: logos and icon systems, responsive websites and interface prototypes, diagrams and infographics, interactive explainers, HTML presentations, cards and brand/print collateral. Use for code-driven visual design with editable source and real previews; not routine nonvisual coding, data analysis alone, or bitmap-only image editing."
 ---
 
 # Code-driven design
@@ -9,6 +9,7 @@ Turn a visual brief into a designed, editable artifact by using code as the auth
 
 ## Route by the artifact and its purpose
 
+- **Logos, symbols and icon families:** design or refine brand marks, wordmarks, lockups, app/UI icons, or a consistent set of symbols. Distinguish using an existing identity, extending its icon family, and an authorized redesign. Read [logo-icons.md](references/logo-icons.md).
 - **Websites and interface prototypes:** landing pages, product pages, app screens, components, or working surfaces. Reuse an existing project and design system; model the requested states and behavior. Read [digital-interfaces.md](references/digital-interfaces.md).
 - **Diagrams, infographics and interactive explanations:** communicate relationships, processes, mechanisms or comparisons. Build real input-to-output behavior when interaction helps. This includes small calculators/simulations and HTML presentation decks. Read [interactive-explainers.md](references/interactive-explainers.md).
 - **Brand and print collateral:** cards, labels, posters, invitations, flyers, packaging inserts and similar visual pieces. Read [print-production.md](references/print-production.md) only when physical output or factory specifications are requested.
@@ -17,18 +18,19 @@ Turn a visual brief into a designed, editable artifact by using code as the auth
 
 Read [brand-context.md](references/brand-context.md) when a design needs brand evidence or a brief. Preserve approved language, copy, visual direction and decisions across revisions. Combine routes only when the deliverable calls for them; do not load every reference.
 
-Match scope to the request. A website should be the requested website, a tool should expose its actual controls and outputs, and a poster should remain a poster. Screen work does not require trim, bleed, CMYK, factory notes or a QR code. Use image tools for photographs or representational illustrations; do not substitute CSS product drawings for requested imagery.
+Match scope to the request. A website should be the requested website, a tool should expose its actual controls and outputs, and a poster should remain a poster. A logo/icon request needs usable assets, not only a picture inside a mockup. Screen and ordinary SVG asset work do not require trim, bleed, CMYK, factory notes or a QR code. Use image tools for photographs or rich representational illustrations; use code-native SVG geometry for vector marks and functional icons when appropriate.
 
 ## Use the same design method across formats
 
 Recover the brief from the conversation: purpose, audience, content and language, brand/reference material, display context, meaningful interactions and requested deliverables. Add physical size, sides, QR destination and print conditions only for an applicable brief. Ask only for missing decisions that materially change the result; continue independent work while awaiting an answer.
 
-Choose one concise visual thesis before authoring, then carry it through hierarchy, typography, color roles, spacing, grids, imagery and motion. Use shared design tokens plus structured content/state instead of duplicating layouts or hardcoding unrelated views. For websites, prefer responsive CSS and reusable components; for diagrams, encode relationships/data consistently; for physical art, a millimetre scene can be appropriate. Use the renderer only when its geometry model fits.
+Choose one concise visual thesis before authoring, then carry it through hierarchy, typography, color roles, spacing, grids, imagery and motion. Use shared design tokens plus structured content/state instead of duplicating layouts or hardcoding unrelated views. For logos/icons, keep reusable vector geometry and a consistent visual grammar; for websites, prefer responsive CSS/components; for diagrams, encode relationships/data consistently; for physical art, a millimetre scene can be appropriate. Use the renderer only when its geometry model fits.
 
 Make controls change meaningful state or results. Keep design-review controls separate from the finished product. Do not invent backend persistence, live data, working checkout or successful submissions for a visual prototype; distinguish its implemented behavior from illustrative content. Do not add live services merely because they are common.
 
 Select the smallest suitable starting point:
 
+- [logo-icon-study.html](assets/logo-icon-study.html): vector asset study with actual-size previews and standalone mark/icon SVG exports.
 - [interactive-interface.html](assets/interactive-interface.html): a self-contained responsive interface with working state.
 - [interactive-explainer.html](assets/interactive-explainer.html): an SVG-based mechanism whose controls change the visualization.
 - [example-card.json](assets/example-card.json) and the physical renderer: small dimensioned print pieces.
@@ -45,7 +47,7 @@ Use a specialist workflow when the requested final format or runtime calls for i
 
 ## Validate the result that the user will receive
 
-Inspect the artifact in the actual browser/visualization environment. For screens, check narrow/wide layouts, readable hierarchy, keyboard/focus, images and the implemented states. For explainers, verify the relationships, input-to-output results and source/assumption labels. For HTML decks, check slide order, navigation and any requested presentation export. A file write, DOM count or screenshot alone does not prove that interactions work.
+Inspect the artifact in the actual browser/visualization environment. For logos/icons, open the standalone vectors, compare optical weight/spacing at their intended small sizes, inspect monochrome/background variants when needed, and identify text/font dependencies. For screens, check narrow/wide layouts, readable hierarchy, keyboard/focus and states. For explainers, verify relationships, results and source/assumption labels. For HTML decks, check navigation and requested export. A file write, DOM count or screenshot alone does not prove that interactions work.
 
 When physical output is requested, additionally render every final PDF page and check order, trim/bleed boxes, physical type readability, colors and glyphs. Decode any requested QR from the export against the verified destination. Label print profile/proof assumptions. Do not apply these print checks to a screen-only artifact.
 
@@ -53,7 +55,7 @@ Recheck the changed behavior and affected views after an edit. Summarize the che
 
 ## Deliver and continue
 
-Return the requested artifact and the short facts needed to use it: entry point, supported behavior/formats, relevant checks and material limitations. Make files clickable. Supply editable source when requested; screen designs need not include factory files, and factory instruction pages should remain distinct from print artwork.
+Return the requested artifact and the short facts needed to use it: entry point, supported behavior/formats, relevant checks and material limitations. Make files clickable. Logo/icon work should include the requested individual vector files and any family/use notes, rather than only an HTML board. Supply editable source when requested; screen designs need not include factory files, and factory instruction pages should remain distinct from print artwork.
 
 Publish through the provider the user requested and preserve an existing Site's identity and access. Send files by email only when the user has authorized that recipient and action; verify the send result. Creating a design does not by itself authorize publishing, sharing, ordering, or contacting a factory. Keep production orders separate from preparing a reviewable design.
 

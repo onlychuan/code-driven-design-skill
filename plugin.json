@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "code-driven-design-skill",
-  "version": "1.1.0",
-  "description": "Create editable websites, interfaces, interactive explainers, presentations and brand visuals through code.",
+  "version": "1.2.0",
+  "description": "Create editable logos, icons, websites, interfaces, interactive explainers, presentations and brand visuals through code.",
   "author": { "name": "onlychuan" },
   "homepage": "https://github.com/onlychuan/code-driven-design-skill",
   "repository": "https://github.com/onlychuan/code-driven-design-skill",
@@ -11,8 +11,8 @@
     "com.openai": {
       "interface": {
         "displayName": "代码驱动设计",
-        "shortDescription": "界面、信息图与交互视觉设计",
-        "longDescription": "Design responsive websites and interfaces, diagrams and infographics, interactive explainers and tools, HTML presentations, and brand/print collateral with editable source and working previews.",
+        "shortDescription": "Logo、Icon 与通用视觉设计",
+        "longDescription": "Design logos and coherent icon families, responsive websites and interfaces, diagrams and infographics, interactive explainers, HTML presentations, cards and brand/print collateral with editable source and working previews.",
         "developerName": "onlychuan",
         "category": "Productivity",
         "defaultPrompt": "用代码驱动设计，把我的视觉需求做成可编辑代码和可交互预览，并按需导出或发布。"

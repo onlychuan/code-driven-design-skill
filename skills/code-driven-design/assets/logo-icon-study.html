@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src 'none'; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Shape lab — a generic logo and icon study</title>
+  <style>
+    :root { --page:#f2f3f5;--surface:#fff;--ink:#242a34;--muted:#6a7280;--line:#dfe3e9;--accent:#5c49c4;--preview:#fff;--preview-ink:#5c49c4;--radius:.875rem;--space:.75rem;--font:system-ui,-apple-system,"Segoe UI",sans-serif; }
+    * { box-sizing:border-box; } body { margin:0;font:1rem/1.5 var(--font);background:var(--page);color:var(--ink); } button,select,input,textarea { font:inherit; } button { cursor:pointer; }
+    :focus-visible { outline:.1875rem solid #b56615;outline-offset:.1875rem; } main { max-width:79rem;margin:auto;padding:2rem; } h1,h2,h3,p { margin:0; }
+    .header { display:flex;justify-content:space-between;align-items:flex-start;gap:1.5rem;padding-bottom:1.5rem; } .eyebrow { font-size:.75rem;font-weight:650;letter-spacing:.1em;color:var(--accent);text-transform:uppercase; }
+    h1 { font-size:2rem;letter-spacing:-.045em;line-height:1.15;font-weight:600;margin:.5rem 0; } .intro { color:var(--muted);font-size:.875rem;max-width:44rem; } .demo { font-size:.75rem;color:var(--muted);white-space:nowrap; }
+    .layout { display:grid;grid-template-columns:16rem minmax(0,1fr);gap:1.25rem;align-items:start; } .panel { background:var(--surface);border:.0625rem solid var(--line);border-radius:var(--radius);min-width:0; }
+    .controls { padding:1.25rem; } h2 { font-size:1rem;font-weight:600; } .field { margin-top:1.25rem; } label { display:block;font-size:.8rem;margin-bottom:.5rem; }
+    select { width:100%;border:.0625rem solid var(--line);border-radius:.5rem;background:white;color:var(--ink);padding:.5rem; } input[type="range"] { width:100%;accent-color:var(--accent); } .control-head { display:flex;justify-content:space-between;align-items:baseline;gap:.5rem; } output { font-size:.75rem;color:var(--muted); }
+    .note { font-size:.75rem;color:var(--muted);margin-top:1rem; } .board { display:grid;gap:1.25rem; }
+    .section { padding:1.25rem; } .section-head { display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1rem; } .section-head p { font-size:.75rem;color:var(--muted); }
+    .lockups { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem; } .lockup { display:grid;place-items:center;gap:.5rem;min-height:9.5rem;border:.0625rem solid var(--line);border-radius:.625rem;padding:1rem;background:#fff;color:var(--ink); }
+    .lockup.reversed { background:#252935;color:#fff;border-color:#252935; } .lockup-mark { display:flex;align-items:center;gap:.6rem; } .lockup-mark strong { font-size:1.05rem;font-weight:550;letter-spacing:-.025em; } .lockup small { font-size:.7rem;color:var(--muted); } .reversed small { color:#c9ccd5; }
+    .size-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem; } .size-cell { display:grid;justify-items:center;align-content:center;gap:.75rem;min-height:7rem;border:.0625rem solid var(--line);border-radius:.625rem;background:var(--preview);color:var(--preview-ink);padding:1rem; } .size-cell small { font-size:.7rem;color:inherit;opacity:.8; }
+    .size-glyph { min-height:2rem;display:grid;place-items:center; } .size-glyph svg { flex-shrink:0; }
+    .icon-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem; } .icon-card { border:.0625rem solid var(--line);border-radius:.625rem;background:var(--preview);color:var(--preview-ink);padding:1rem;text-align:center; }
+    .icon-card[aria-pressed="true"] { box-shadow:0 0 0 .125rem var(--accent); } .icon-card svg { display:block;margin:0 auto .5rem; } .icon-card span { font-size:.8rem; } .icon-card:hover { outline:.0625rem solid var(--accent);outline-offset:.125rem; }
+    .export-panel { display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1rem;align-items:start; } .export-panel label { font-size:.75rem;color:var(--muted);margin-bottom:.5rem; }
+    textarea { width:100%;min-height:9rem;resize:vertical;border:.0625rem solid var(--line);border-radius:.5rem;padding:.75rem;background:#fafbfc;color:#4f5966;font:.75rem/1.5 ui-monospace,SFMono-Regular,Consolas,monospace; }
+    .actions { display:grid;gap:.5rem;min-width:10rem;padding-top:1.625rem; } .button { border:.0625rem solid var(--line);border-radius:.5rem;background:white;color:var(--ink);padding:.55rem .75rem;font-size:.8rem; } .button.primary { background:var(--accent);border-color:var(--accent);color:white; }
+    .download-mark { width:100%;margin-top:1rem; } .footer { margin-top:1.5rem;font-size:.75rem;color:var(--muted); } .sr-only { position:absolute;width:.0625rem;height:.0625rem;padding:0;margin:-.0625rem;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0; }
+    @media(max-width:60rem) { main { padding:1.25rem; } .layout { grid-template-columns:1fr; } .fields { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem; } .controls .note { max-width:55rem; } .download-mark { max-width:16rem; } }
+    @media(max-width:38rem) { .header { flex-direction:column;gap:.5rem; } .fields { grid-template-columns:1fr;gap:0; } .lockups { grid-template-columns:1fr; } .lockup { min-height:7rem; } .size-grid,.icon-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .section-head,.export-panel { display:block; } .section-head p { margin-top:.375rem; } .actions { display:flex;flex-wrap:wrap;padding-top:.5rem; } }
+  </style>
+</head>
+<body>
+<main>
+  <header class="header"><div><p class="eyebrow">Editable SVG study</p><h1>One mark. One small icon family.</h1><p class="intro">A generic geometric example for exploring identity, optical size, and consistent icon geometry. Change the controls, inspect the actual sizes, then export a standalone SVG.</p></div><p class="demo">Original demo assets · offline</p></header>
+  <div class="layout">
+    <section class="panel controls" aria-labelledby="controls-title"><h2 id="controls-title">Study controls</h2><div class="fields">
+      <div class="field"><label for="palette">Color palette</label><select id="palette"><option value="violet">Violet / lavender</option><option value="teal">Teal / mint</option><option value="coral">Coral / peach</option></select></div>
+      <div class="field"><label for="background">Size-preview background</label><select id="background"><option value="light">Light</option><option value="dark">Dark</option><option value="tinted">Soft tinted</option></select></div>
+      <div class="field"><label for="mark-mode">Mark variant</label><select id="mark-mode"><option value="color">Full color</option><option value="mono">Monochrome</option><option value="reverse">Reversed</option></select></div>
+      <div class="field"><div class="control-head"><label for="stroke">Icon stroke</label><output id="stroke-output" for="stroke">2 units</output></div><input id="stroke" type="range" min="1.5" max="2.5" step="0.25" value="2"></div>
+    </div><p class="note">All icons share a 24 × 24 grid, round caps, and round joins. The mark uses a 32 × 32 grid with a real open counter. Stroke units scale with each SVG.</p><button id="choose-mark" class="button download-mark" type="button">Inspect the mark SVG</button><p class="note">The generic example name uses your browser's system font and stays separate from the vector mark.</p></section>
+    <div class="board">
+      <section class="panel section" aria-labelledby="lockups-title"><div class="section-head"><h2 id="lockups-title">Mark + name preview</h2><p>System-font name stays separate from SVG exports.</p></div><div id="lockups" class="lockups"></div></section>
+      <section class="panel section" aria-labelledby="sizes-title"><div class="section-head"><h2 id="sizes-title">Actual-size check</h2><p id="size-caption">Geometric mark · 16 / 20 / 24 / 32 CSS px</p></div><div id="size-grid" class="size-grid"></div></section>
+      <section class="panel section" aria-labelledby="icons-title"><div class="section-head"><h2 id="icons-title">Functional icon family</h2><p>Choose an icon to inspect its sizes and source.</p></div><div id="icon-grid" class="icon-grid"></div></section>
+      <section class="panel section" aria-labelledby="export-title"><div class="section-head"><h2 id="export-title">Selected asset source</h2><p id="export-caption">Mark only · no font dependency</p></div><div class="export-panel"><div><label for="svg-source">Editable SVG code — select and copy into your own source file</label><textarea id="svg-source" readonly spellcheck="false"></textarea></div><div class="actions"><button id="select-source" class="button" type="button">Select source</button><button id="download-svg" class="button primary" type="button">Download SVG</button></div></div><p class="note">Exports contain vector paths and shapes, no scripts, bitmap images, external references, or text glyphs. Icons use currentColor with an explicit standalone color. The combined name preview is not exported.</p></section>
+    </div>
+  </div>
+  <p class="footer">The mark and icons are original geometric teaching examples, with no company assets, accounts, remote fonts, or API calls. Code is the editable source; reload to reset the study.</p>
+  <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+</main>
+<script>
+"use strict";
+const byId=id=>document.getElementById(id);
+const palettes={violet:{primary:"#5C49C4",light:"#B5A7F0",tint:"#F0EDFB"},teal:{primary:"#14786D",light:"#7DC8BA",tint:"#EAF5F1"},coral:{primary:"#B94830",light:"#F0A38C",tint:"#FBEEE8"}};
+const iconNames={search:"Search",add:"Add",check:"Complete",tune:"Adjust"};
+const iconShapes={search:'<circle cx="10.5" cy="10.5" r="6.25"/><path d="M15.25 15.25 20.5 20.5"/>',add:'<path d="M12 5v14M5 12h14"/>',check:'<path d="m5 12.5 4.5 4.5L19 7"/>',tune:'<path d="M4 6h2m4 0h10M4 12h10m4 0h2M4 18h4m4 0h8"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/>'};
+const state={palette:"violet",background:"light",markMode:"color",stroke:2,selected:"mark"};
+let titleCounter=0;
+function markGeometry(primary,secondary) {
+  return `<path fill="${primary}" fill-rule="evenodd" d="M4 4h13l11 11v13H15L4 17Zm7 7v3l7 7h3v-3l-7-7Z"/><path fill="${secondary}" d="M4 4h13l11 11-7 3-7-7h-3Z"/>`;
+}
+function markColors(mode) {
+  const palette=palettes[state.palette];
+  return mode==="mono"?["#242A34","#242A34"]:mode==="reverse"?["#FFFFFF","#FFFFFF"]:[palette.primary,palette.light];
+}
+function exportSVG(kind=state.selected) {
+  const palette=palettes[state.palette],color=state.background==="dark"?palette.light:palette.primary;
+  const mark=kind==="mark",name=mark?"Geometric demo mark":iconNames[kind];
+  const viewBox=mark?"0 0 32 32":"0 0 24 24";
+  const geometry=mark?markGeometry(...markColors(state.markMode)):`<g fill="none" stroke="currentColor" stroke-width="${state.stroke}" stroke-linecap="round" stroke-linejoin="round">${iconShapes[kind]}</g>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}" width="${mark?32:24}" height="${mark?32:24}" color="${color}" role="img" aria-labelledby="asset-title"><title id="asset-title">${name}</title>${geometry}</svg>`;
+}
+function inlineSVG(kind,size,mode="color",decorative=false) {
+  const palette=palettes[state.palette],mark=kind==="mark",titleId="study-title-"+(++titleCounter);
+  const [primary,secondary]=markColors(mode);
+  const color=state.background==="dark"?palette.light:palette.primary;
+  const geometry=mark?markGeometry(primary,secondary):`<g fill="none" stroke="currentColor" stroke-width="${state.stroke}" stroke-linecap="round" stroke-linejoin="round">${iconShapes[kind]}</g>`;
+  const semantics=decorative?'aria-hidden="true" focusable="false"':`role="img" aria-labelledby="${titleId}"`;
+  const title=decorative?"":`<title id="${titleId}">${mark?"Geometric demo mark":iconNames[kind]}</title>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${mark?32:24} ${mark?32:24}" width="${size}" height="${size}" color="${color}" ${semantics}>${title}${geometry}</svg>`;
+}
+function render() {
+  const palette=palettes[state.palette];
+  document.documentElement.style.setProperty("--accent",palette.primary);
+  document.documentElement.style.setProperty("--preview",state.background==="dark"?"#252935":state.background==="tinted"?palette.tint:"#FFFFFF");
+  document.documentElement.style.setProperty("--preview-ink",state.background==="dark"?palette.light:palette.primary);
+  byId("stroke-output").textContent=state.stroke+" units";
+  byId("lockups").innerHTML=[["color","Full color"],["mono","Monochrome"],["reverse","Reversed"]].map(([mode,label])=>`<div class="lockup ${mode==="reverse"?"reversed":""}"><div class="lockup-mark">${inlineSVG("mark",40,mode)}<strong>Example</strong></div><small>${label} · name is live text</small></div>`).join("");
+  byId("size-caption").textContent=(state.selected==="mark"?"Geometric mark":iconNames[state.selected])+" · 16 / 20 / 24 / 32 CSS px";
+  byId("size-grid").innerHTML=[16,20,24,32].map(size=>`<div class="size-cell"><div class="size-glyph">${inlineSVG(state.selected,size,state.selected==="mark"?state.markMode:"color")}</div><small>${size} px</small></div>`).join("");
+  byId("icon-grid").innerHTML=Object.entries(iconNames).map(([kind,label])=>`<button type="button" class="icon-card" data-icon="${kind}" aria-label="${label} icon" aria-pressed="${kind===state.selected}" aria-controls="size-grid svg-source">${inlineSVG(kind,24,"color",true)}<span>${label}</span></button>`).join("");
+  byId("export-caption").textContent=state.selected==="mark"?"Mark only · "+({color:"full color",mono:"monochrome",reverse:"reversed"}[state.markMode])+" · no font dependency":iconNames[state.selected]+" icon · 24-unit grid";
+  byId("svg-source").value=exportSVG();
+  byId("download-svg").textContent=state.selected==="mark"?"Download mark SVG":"Download "+iconNames[state.selected].toLowerCase()+" SVG";
+}
+byId("palette").addEventListener("change",event=>{state.palette=event.target.value;render();});
+byId("background").addEventListener("change",event=>{state.background=event.target.value;render();});
+byId("mark-mode").addEventListener("change",event=>{state.markMode=event.target.value;render();});
+byId("stroke").addEventListener("input",event=>{state.stroke=Number(event.target.value);render();});
+byId("icon-grid").addEventListener("click",event=>{
+  const button=event.target.closest("[data-icon]");if(!button)return;
+  state.selected=button.dataset.icon;render();byId("icon-grid").querySelector(`[data-icon="${state.selected}"]`)?.focus();byId("announcement").textContent="Inspecting "+iconNames[state.selected]+" icon";
+});
+byId("choose-mark").addEventListener("click",()=>{state.selected="mark";render();byId("announcement").textContent="Inspecting the geometric mark";});
+byId("select-source").addEventListener("click",()=>{byId("svg-source").focus();byId("svg-source").select();});
+byId("download-svg").addEventListener("click",()=>{
+  const source=exportSVG(),blob=new Blob([source],{type:"image/svg+xml;charset=utf-8"}),url=URL.createObjectURL(blob),link=document.createElement("a");
+  link.href=url;link.download="demo-"+state.selected+(state.selected==="mark"?"-"+state.markMode:"")+".svg";document.body.appendChild(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  byId("announcement").textContent="Downloaded standalone "+state.selected+" SVG";
+});
+render();
+</script>
+</body>
+</html>

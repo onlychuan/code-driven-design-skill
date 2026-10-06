@@ -39,4 +39,4 @@ Measure layout bounds when a potential collision is hard to judge, then inspect 
 
 When the brief includes a QR, generate it from the verified payload rather than drawing an imitation. Preserve a clear four-module quiet zone, square modules, and strong contrast. Decode the rendered QR and compare its complete payload with the target. A successful source-PNG decode does not validate the final preview or export.
 
-For medium-specific checks, read [digital-interfaces.md](digital-interfaces.md), [interactive-explainers.md](interactive-explainers.md), or [print-production.md](print-production.md) as relevant.
+For medium-specific checks, read [digital-interfaces.md](digital-interfaces.md), [interactive-explainers.md](interactive-explainers.md), [logo-icons.md](logo-icons.md), or [print-production.md](print-production.md) as relevant. A logo/icon preview should include actual intended use sizes and backgrounds, rather than showing only an enlarged mockup.

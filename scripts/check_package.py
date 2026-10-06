@@ -16,6 +16,7 @@ def check(root: Path) -> dict:
         'references/print-production.md', 'references/publishing-delivery.md',
         'references/digital-interfaces.md', 'references/interactive-explainers.md',
         'assets/interactive-interface.html', 'assets/interactive-explainer.html',
+        'references/logo-icons.md', 'assets/logo-icon-study.html',
     ]
     errors = [f'Missing {p}' for p in required if not (skill / p).is_file()]
     if errors:
