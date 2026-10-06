@@ -9,6 +9,7 @@ Code-driven Design is now a general visual-design workflow, with print as one op
 - Two standalone digital examples: an interactive interface and a mechanism explainer.
 - Screen-specific verification and routing to specialist final-format tools when needed.
 - Existing print renderer and exact-file/CSP preservation remain available.
+- Update backups are kept outside the skill-discovery directory to avoid duplicate skill entries.
 
 Download and extract the ZIP, then double-click `install.cmd` on Windows or run `bash install.sh` on macOS/Linux. For an existing installation, use `-Force` / `--force`; the installer preserves a backup.
 

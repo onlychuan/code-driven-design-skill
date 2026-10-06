@@ -7,7 +7,7 @@ This package uses behavioral checks instead of tests that only match wording.
 - Official Skill Creator validator: valid frontmatter and finished scaffold.
 - Portable plugin manifest: validated against the Agent Plugins 1.0 JSON schema.
 - UTF-8 UI metadata: Chinese display name verified.
-- Installer tests: fresh install, scope and hidden files, existing-install refusal, explicit update with preserved backups, incomplete-package refusal, unsafe destination refusal, existing-file refusal, Windows wrapper arguments.
+- Installer tests: fresh install, scope and hidden files, existing-install refusal, explicit update with preserved backups outside skill discovery, incomplete-package refusal, unsafe destination refusal, existing-file refusal, Windows wrapper arguments.
 - Windows PowerShell 5.1, PowerShell 7 and Git Bash exercised with directories containing spaces and Chinese characters.
 - Renderer tests: escaped content, rejected active URLs and unsupported fields, finite geometry, QR capacity, Reed-Solomon parity, deterministic output, explicit overwrite, exact-file preservation and detection of changed bytes.
 - Independent ZXing decoding: short URLs, multiple QR versions, and Unicode URL payloads.

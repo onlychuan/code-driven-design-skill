@@ -17,6 +17,8 @@ $skillName = 'code-driven-design'
 $stageRoot = $null
 $destinationRoot = $null
 $backupRoot = $null
+$backupParent = $null
+$installationParent = $null
 $targetRoot = $null
 
 function Assert-SkillPackage {
@@ -78,6 +80,17 @@ function Remove-InstallerStage {
     }
 }
 
+function Assert-BackupParent {
+    Assert-DirectChild -Candidate $script:backupParent -Parent $script:installationParent -ExpectedName ".$skillName-backups"
+    if (-not (Test-Path -LiteralPath $script:backupParent -PathType Container)) {
+        throw 'Backup location must be a regular directory outside the skills directory.'
+    }
+    $backupParentItem = Get-Item -LiteralPath $script:backupParent -Force
+    if (($backupParentItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0) {
+        throw 'Backup directory cannot be a symbolic link or junction.'
+    }
+}
+
 try {
     $sourceRoot = [IO.Path]::GetFullPath((Join-Path -Path $PSScriptRoot -ChildPath "skills\$skillName"))
     if (-not (Test-Path -LiteralPath $sourceRoot -PathType Container)) {
@@ -110,6 +123,19 @@ try {
         if (-not $targetItem.PSIsContainer -or (($targetItem.Attributes -band [IO.FileAttributes]::ReparsePoint) -ne 0)) {
             throw 'Existing installation must be a regular directory, not a file, symbolic link, or junction.'
         }
+        $installationParent = [IO.Path]::GetDirectoryName($destinationRoot.TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar))
+        if ([string]::IsNullOrWhiteSpace($installationParent)) {
+            throw 'The installation directory needs a parent directory for external backups.'
+        }
+        $backupParent = [IO.Path]::GetFullPath((Join-Path -Path $installationParent -ChildPath ".$skillName-backups"))
+        Assert-DirectChild -Candidate $backupParent -Parent $installationParent -ExpectedName ".$skillName-backups"
+        if (Test-Path -LiteralPath $backupParent) {
+            Assert-BackupParent
+        }
+        else {
+            New-Item -ItemType Directory -Path $backupParent | Out-Null
+            Assert-BackupParent
+        }
     }
 
     $stageName = ".$skillName.stage-$([Guid]::NewGuid().ToString('N'))"
@@ -123,9 +149,10 @@ try {
 
     if (Test-Path -LiteralPath $targetRoot) {
         $backupName = "$skillName.backup-$([DateTime]::UtcNow.ToString('yyyyMMddTHHmmssZ'))-$([Guid]::NewGuid().ToString('N').Substring(0, 8))"
-        $backupRoot = Join-Path -Path $destinationRoot -ChildPath $backupName
+        $backupRoot = [IO.Path]::GetFullPath((Join-Path -Path $backupParent -ChildPath $backupName))
         Assert-DirectChild -Candidate $targetRoot -Parent $destinationRoot -ExpectedName $skillName
-        Assert-DirectChild -Candidate $backupRoot -Parent $destinationRoot -ExpectedName $backupName
+        Assert-BackupParent
+        Assert-DirectChild -Candidate $backupRoot -Parent $backupParent -ExpectedName $backupName
         [IO.Directory]::Move($targetRoot, $backupRoot)
     }
     try {
@@ -136,7 +163,8 @@ try {
     }
     catch {
         if ($backupRoot -and -not (Test-Path -LiteralPath $targetRoot)) {
-            Assert-DirectChild -Candidate $backupRoot -Parent $destinationRoot -ExpectedName ([IO.Path]::GetFileName($backupRoot))
+            Assert-BackupParent
+            Assert-DirectChild -Candidate $backupRoot -Parent $backupParent -ExpectedName ([IO.Path]::GetFileName($backupRoot))
             Assert-DirectChild -Candidate $targetRoot -Parent $destinationRoot -ExpectedName $skillName
             [IO.Directory]::Move($backupRoot, $targetRoot)
             $backupRoot = $null
@@ -151,6 +179,9 @@ try {
 }
 catch {
     [Console]::Error.WriteLine("Installation failed: $($_.Exception.Message)")
+    if ($backupRoot -and (Test-Path -LiteralPath $backupRoot)) {
+        [Console]::Error.WriteLine("Previous version preserved: $backupRoot")
+    }
     exit 1
 }
 finally {

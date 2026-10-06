@@ -8,6 +8,7 @@ source_root="$installer_root/skills/$skill_name"
 destination_root=''
 stage_root=''
 backup_root=''
+backup_parent=''
 force=0
 
 fail() { printf 'Installation failed: %s\n' "$*" >&2; exit 1; }
@@ -16,7 +17,7 @@ usage() {
         '' 'Installs into ~/.agents/skills by default.' \
         '--dest names the parent skills directory, not the skill directory itself.' \
         'For a legacy Codex path, explicitly use --dest "$CODEX_HOME/skills" or --dest "$HOME/.codex/skills".' \
-        '--force preserves the previous version in a uniquely named backup directory.'
+        '--force preserves the previous version outside the skills directory in ../.code-driven-design-backups/.'
 }
 while (($#)); do
     case "$1" in
@@ -34,6 +35,18 @@ validate_package() {
     done
     grep -Eq '^name:[[:space:]]*code-driven-design[[:space:]]*$' "$package_root/SKILL.md" || fail 'SKILL.md must declare name: code-driven-design in its YAML frontmatter'
     [[ -z "$(find "$package_root" -type l -print -quit)" ]] || fail 'Skill packages containing symbolic links are not supported'
+}
+
+validate_backup_parent() {
+    [[ -d "$backup_parent" && ! -L "$backup_parent" ]] || fail 'Backup directory cannot be a file, symbolic link, or junction'
+}
+
+filesystem_device() {
+    # GNU stat (Linux/Git Bash) and BSD stat (macOS). Refuse if neither works.
+    if stat -c %d -- "$1" 2>/dev/null; then
+        return 0
+    fi
+    stat -f %d "$1" 2>/dev/null
 }
 
 cleanup() {
@@ -66,6 +79,16 @@ target_root="$destination_root/$skill_name"
 if [[ -e "$target_root" || -L "$target_root" ]]; then
     ((force)) || fail "Already installed: $target_root. Use --force to update and preserve a backup."
     [[ -d "$target_root" && ! -L "$target_root" ]] || fail 'Existing installation must be a regular directory, not a file or symbolic link'
+    backup_parent="$(dirname -- "$destination_root")/.$skill_name-backups"
+    if [[ -e "$backup_parent" || -L "$backup_parent" ]]; then
+        validate_backup_parent
+    else
+        mkdir -- "$backup_parent"
+        validate_backup_parent
+    fi
+    target_device="$(filesystem_device "$target_root")" || fail 'Cannot determine the installation filesystem for a safe backup'
+    backup_device="$(filesystem_device "$backup_parent")" || fail 'Cannot determine the backup filesystem'
+    [[ "$target_device" == "$backup_device" ]] || fail 'Backup directory is on a different filesystem; the original installation was not moved'
 fi
 
 stage_root="$(mktemp -d "$destination_root/.$skill_name.stage.XXXXXX")"
@@ -73,13 +96,15 @@ cp -R -- "$source_root/." "$stage_root/"
 validate_package "$stage_root"
 if [[ -e "$target_root" ]]; then
     while :; do
-        backup_root="$destination_root/$skill_name.backup-$(date -u +%Y%m%dT%H%M%SZ)-$$-$RANDOM"
+        backup_root="$backup_parent/$skill_name.backup-$(date -u +%Y%m%dT%H%M%SZ)-$$-$RANDOM"
         [[ ! -e "$backup_root" && ! -L "$backup_root" ]] && break
     done
-    mv -- "$target_root" "$backup_root"
+    validate_backup_parent
+    mv -- "$target_root" "$backup_root" || fail 'Could not preserve the original installation; update stopped'
 fi
 if ! mv -- "$stage_root" "$target_root"; then
     if [[ -n "$backup_root" && ! -e "$target_root" && ! -L "$target_root" ]]; then
+        validate_backup_parent
         mv -- "$backup_root" "$target_root" || fail "Update failed; restore the preserved backup: $backup_root"
         backup_root=''
     fi

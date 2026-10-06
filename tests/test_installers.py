@@ -88,7 +88,10 @@ class InstallerTests(unittest.TestCase):
         return subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=30)
 
     def destination_for(self, shell):
-        return self.root / f"Custom skills 中文 {shell[0]}"
+        return self.root / shell[0] / "Custom skills 中文"
+
+    def backup_parent_for(self, destination):
+        return destination.parent / f".{SKILL_NAME}-backups"
 
     def assert_no_stage(self, destination):
         if destination.exists():
@@ -108,6 +111,7 @@ class InstallerTests(unittest.TestCase):
                 self.assertFalse((target / "do-not-install.txt").exists())
                 self.assertFalse((target / "install.ps1").exists())
                 self.assertEqual(list(destination.glob(f"{SKILL_NAME}.backup-*")), [])
+                self.assertFalse(self.backup_parent_for(destination).exists())
                 self.assertIn("next Codex turn", result.stdout)
                 self.assert_no_stage(destination)
 
@@ -125,6 +129,7 @@ class InstallerTests(unittest.TestCase):
                 self.assertEqual(sentinel.read_text(encoding="utf-8"), "do not overwrite")
                 self.assertFalse((target / "SKILL.md").exists())
                 self.assertEqual(list(destination.glob(f"{SKILL_NAME}.backup-*")), [])
+                self.assertFalse(self.backup_parent_for(destination).exists())
                 self.assert_no_stage(destination)
 
     def test_force_update_preserves_unique_backups(self):
@@ -134,20 +139,28 @@ class InstallerTests(unittest.TestCase):
                 target = destination / SKILL_NAME
                 target.mkdir(parents=True)
                 (target / "old-only.txt").write_text("original", encoding="utf-8")
+                shutil.copyfile(self.source / "SKILL.md", target / "SKILL.md")
                 result = self.run_installer(shell, destination, force=True)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                 self.assertFalse((target / "old-only.txt").exists())
-                first_backups = list(destination.glob(f"{SKILL_NAME}.backup-*"))
+                backup_parent = self.backup_parent_for(destination)
+                self.assertEqual(backup_parent, destination.parent / ".code-driven-design-backups")
+                self.assertTrue(backup_parent.is_dir())
+                first_backups = list(backup_parent.glob(f"{SKILL_NAME}.backup-*"))
                 self.assertEqual(len(first_backups), 1)
                 self.assertEqual((first_backups[0] / "old-only.txt").read_text(encoding="utf-8"), "original")
+                self.assertTrue((first_backups[0] / "SKILL.md").is_file())
+                self.assertEqual(list(destination.rglob("SKILL.md")), [target / "SKILL.md"])
                 (target / "second-version.txt").write_text("second", encoding="utf-8")
                 result = self.run_installer(shell, destination, force=True)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-                all_backups = list(destination.glob(f"{SKILL_NAME}.backup-*"))
+                all_backups = list(backup_parent.glob(f"{SKILL_NAME}.backup-*"))
                 self.assertEqual(len(all_backups), 2)
                 self.assertTrue((first_backups[0] / "old-only.txt").is_file())
                 second_backup = next(path for path in all_backups if path != first_backups[0])
                 self.assertEqual((second_backup / "second-version.txt").read_text(encoding="utf-8"), "second")
+                self.assertEqual(list(destination.rglob("SKILL.md")), [target / "SKILL.md"])
+                self.assertEqual(list(destination.glob(f"{SKILL_NAME}.backup-*")), [])
                 self.assert_no_stage(destination)
 
     def test_invalid_package_does_not_replace_existing_install(self):
@@ -179,13 +192,44 @@ class InstallerTests(unittest.TestCase):
         for shell in SHELLS:
             with self.subTest(shell=shell[0]):
                 destination = self.destination_for(shell)
-                destination.mkdir()
+                destination.mkdir(parents=True)
                 target = destination / SKILL_NAME
                 target.write_text("existing file", encoding="utf-8")
                 result = self.run_installer(shell, destination, force=True)
                 self.assertNotEqual(result.returncode, 0)
                 self.assertIn("regular directory", result.stderr)
                 self.assertEqual(target.read_text(encoding="utf-8"), "existing file")
+                self.assert_no_stage(destination)
+
+    def test_backup_parent_link_is_refused(self):
+        for shell in SHELLS:
+            with self.subTest(shell=shell[0]):
+                destination = self.destination_for(shell)
+                target = destination / SKILL_NAME
+                target.mkdir(parents=True)
+                (target / "old-only.txt").write_text("original", encoding="utf-8")
+                backup_parent = self.backup_parent_for(destination)
+                external = self.root / f"Unrelated backup destination {shell[0]}"
+                external.mkdir()
+                (external / "untouched.txt").write_text("untouched", encoding="utf-8")
+                if os.name == "nt":
+                    powershell = next(item[1] for item in SHELLS if item[0] in ("pwsh", "powershell"))
+                    quoted_parent = str(backup_parent).replace("'", "''")
+                    quoted_external = str(external).replace("'", "''")
+                    creation = subprocess.run(
+                        [powershell, "-NoProfile", "-Command", f"New-Item -ItemType Junction -Path '{quoted_parent}' -Target '{quoted_external}' | Out-Null"],
+                        capture_output=True, timeout=30,
+                    )
+                    self.assertEqual(creation.returncode, 0, creation.stderr)
+                    self.addCleanup(os.rmdir, backup_parent)
+                else:
+                    backup_parent.symlink_to(external, target_is_directory=True)
+                    self.addCleanup(backup_parent.unlink)
+                result = self.run_installer(shell, destination, force=True)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("Backup directory", result.stderr)
+                self.assertEqual((target / "old-only.txt").read_text(encoding="utf-8"), "original")
+                self.assertEqual(list(external.iterdir()), [external / "untouched.txt"])
                 self.assert_no_stage(destination)
 
     @unittest.skipUnless(os.name == "nt", "Windows batch wrapper")

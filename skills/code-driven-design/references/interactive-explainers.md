@@ -26,6 +26,8 @@ Keep source values and derived results in one data/state model. Test representat
 
 For a browser deck, define the intended slide aspect ratio and viewing mode. Keep slide content inside that geometry while the surrounding viewer adapts to desktop/mobile. Implement the requested previous/next navigation and current-slide indication. Keyboard navigation should not intercept typing inside controls; focus and screen-reader reading order should follow the active slide.
 
+On small screens, choose whether navigation starts the new slide at its top or restores that slide's own scroll position. Do not accidentally carry the previous slide's scroll offset into different content. Test navigation after scrolling a long slide.
+
 Use motion to clarify sequence when it helps, with a reduced-motion alternative. A slide screenshot is not an editable deck. If the user requests PPTX or Google Slides, use the presentations skill and create the actual requested artifact; renaming an HTML file does not convert it.
 
 ## Choose export formats honestly
