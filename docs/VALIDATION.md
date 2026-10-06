@@ -1,6 +1,6 @@
 # Release validation
 
-Version 1.0.0 uses behavioral checks instead of tests that only match wording.
+This package uses behavioral checks instead of tests that only match wording.
 
 ## Local checks
 
@@ -20,6 +20,14 @@ A separate agent used the skill to produce a **70 × 45 mm** two-sided support c
 Both PDF pages were rendered and visually inspected. QR payloads decoded from the final PDF and narrow/wide browser previews. The Chinese factory note identified the CMYK values as unprofiled references. Font files were referenced locally and were not copied into the repository.
 
 The first pass found a missing renderer reference; the reference was added and package links were then revalidated.
+
+## General design scope in 1.1.0
+
+The entrypoint now routes websites/interfaces, interactive diagrams/explanations, HTML presentations and brand visuals separately from physical export. Physical units, crop marks, QR and factory files are conditional. Digital examples are self-contained HTML assets with explicit demo content and working state. They do not imply a live backend or external connector.
+
+The digital asset tests execute the actual inline JavaScript with a small DOM test double after a Node syntax check. They cover filtering, selection, task/status changes and adding a project, plus queue-model conservation, processing bounds and control-driven outputs. A burst scenario specifically verifies that unused early capacity cannot be carried forward.
+
+An independent non-print workflow produced a four-slide HTML presentation for a fictional sensor product, with a clickable process diagram and sampling-interval control. Supported browser automation exercised actual previous/next and keyboard navigation, flow selection, and native range-key changes with updated daily sample counts. Screen work proceeded without the physical scene renderer or print specifications. Desktop and mobile views were inspected.
 
 ## CI
 

@@ -4,7 +4,7 @@ Read this only when the user requests hosting, repository publication, or extern
 
 ## Match the requested destination
 
-Local previews and export packages are useful deliverables without publishing them. Hosting, GitHub upload, and email are distinct actions: a request to host a preview does not authorize emailing it, and invoking this skill supplies no separate authorization to send messages.
+Local interfaces, website prototypes, diagrams, interactive tools, presentations, and print packages are useful without publishing them. Hosting, GitHub upload, and email are distinct actions: a request to host a preview does not authorize emailing it, and invoking this skill supplies no separate authorization to send messages.
 
 When the user selects Sites and its capabilities are available, use the installed Sites building/hosting skills and tools for their current supported workflow. Reuse the current thread's existing Sites project when suitable; preserve its verified project ID, destination, and audience settings unless the user requests a change. Do not copy an example project ID into another job. If the selected provider cannot complete the action, preserve the completed local artifact and report the concrete limitation rather than claiming it is live.
 
@@ -30,8 +30,15 @@ An example should use fictional copy and a harmless sample target, with its assu
 
 ## Deliver files and report evidence
 
-Use clear filenames identifying preview, print artwork, source, and production specifications. Package only the selected design and relevant assets. Keep the factory color sheet separate from the customer-facing artwork when their languages differ.
+Match the technical handoff to the medium:
+
+- **Existing website/interface:** changes in the actual repository, relevant assets, and a concise account of implemented behavior and verification.
+- **Standalone prototype/tool/diagram:** runnable HTML or the requested native source, assets, documented data/model assumptions, and required launch instructions.
+- **Presentation:** HTML deck or a genuinely generated PPTX according to the request, with editable source and relevant assets.
+- **Print:** print PDF, vector/editable source, preview, and production specifications; keep factory notes separate when their language differs.
+
+Use filenames that distinguish preview, editable source, and final output. Package only relevant files for the selected version. Do not send a screenshot as an editable website, rename HTML to PPTX, or label an RGB preview as CMYK artwork.
 
 If the user explicitly requests email delivery, use an available authorized connector and attach the actual verified files. Check the service result before saying “sent”; if the outcome is ambiguous, inspect the send state before retrying so the user does not receive duplicates. Distinguish a prepared draft from a sent message.
 
-Finish with the usable link or file package, the selected version, and any material production assumption. State what was verified and what depends on a printer's proof without inventing validation claims.
+Finish with the usable link or file package, the implemented/selected version, and material assumptions. State what was verified; identify a simulated integration, model limitation, or pending printer proof when relevant without inventing validation claims.

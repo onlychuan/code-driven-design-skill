@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; font-src 'none'; connect-src 'none'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>When work arrives faster than it leaves — interactive explainer starter</title>
+  <style>
+    :root { --page:#f9f8f4;--surface:#fff;--ink:#253a38;--muted:#667570;--border:#dde4de;--teal:#14786d;--teal-soft:#e6f2ed;--orange:#a14f23;--orange-soft:#f7ede4;--focus:#5749aa;--radius:1rem;--space:.75rem;--font:system-ui,-apple-system,"Segoe UI",sans-serif; }
+    * { box-sizing:border-box; } body { margin:0;background:var(--page);color:var(--ink);font:1rem/1.5 var(--font); }
+    button,input,select { font:inherit; } button { cursor:pointer; } :focus-visible { outline:.1875rem solid var(--focus);outline-offset:.1875rem; }
+    main { max-width:77rem;margin:auto;padding:2.5rem; } .intro { max-width:48rem; } .eyebrow { color:var(--teal);font-size:.75rem;font-weight:650;letter-spacing:.09em;text-transform:uppercase; }
+    h1,h2,h3,p { margin:0; } h1 { font-size:clamp(2rem,5vw,3.25rem);line-height:1.1;letter-spacing:-.05em;font-weight:550;margin:.75rem 0 1rem; }
+    .intro p { color:var(--muted);max-width:42rem; } .layout { display:grid;grid-template-columns:18rem minmax(0,1fr);gap:1.5rem;margin-top:2rem;align-items:start; }
+    .panel { background:var(--surface);border:.0625rem solid var(--border);border-radius:var(--radius);min-width:0; }
+    .controls { padding:1.25rem; } h2 { font-size:1rem;font-weight:600; } .control { margin-top:1.25rem; }
+    .control-head { display:flex;justify-content:space-between;gap:.5rem;align-items:baseline; } .control label { font-size:.875rem; } .control output { font-size:.875rem;font-weight:650;color:var(--teal); }
+    input[type="range"] { display:block;width:100%;accent-color:var(--teal);margin:.75rem 0 .25rem; } .control small { display:block;color:var(--muted);font-size:.75rem; }
+    select { margin-top:.5rem;border:.0625rem solid var(--border);border-radius:.5rem;background:white;color:var(--ink);padding:.5rem;width:100%; }
+    .presets { display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1.25rem;padding-top:1rem;border-top:.0625rem solid var(--border); }
+    .presets button { border:.0625rem solid var(--border);border-radius:.5rem;background:var(--page);color:var(--ink);padding:.4rem .55rem;font-size:.75rem; }
+    .presets button:hover { background:var(--teal-soft); } .model-note { color:var(--muted);font-size:.75rem;margin-top:1rem; }
+    .visuals { display:grid;gap:1rem; } .mechanism { padding:1.5rem; } .mechanism h2 { margin-bottom:.5rem; } .mechanism p { color:var(--muted);font-size:.875rem; }
+    .flow { width:100%;height:auto;display:block;margin-top:1rem; } .flow text,.chart text { font-family:var(--font);fill:var(--muted);font-size:12px; }
+    .flow .node-title { font-size:13px;fill:var(--ink);font-weight:600; } .flow .node-value { font-size:22px;font-weight:600;fill:var(--teal); } .flow .queue-value { fill:var(--orange); }
+    .results { display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem; } .result { border-radius:.75rem;border:.0625rem solid var(--border);padding:1rem;background:white; }
+    .result h3 { font-size:.75rem;color:var(--muted);font-weight:500; } .result-number { font-size:1.8rem;font-weight:550;letter-spacing:-.04em;margin-top:.375rem;line-height:1.2; } .result small { font-size:.7rem;color:var(--muted); }
+    .chart-panel { padding:1.25rem 1.5rem; } .chart-head { display:flex;justify-content:space-between;gap:1rem;align-items:center; }
+    .legend { display:flex;gap:1rem;font-size:.75rem;color:var(--muted); } .legend span::before { content:"";display:inline-block;width:.6rem;height:.6rem;background:var(--orange);margin-right:.4rem;border-radius:.125rem; } .legend span:last-child::before { background:var(--teal); }
+    .chart { width:100%;height:auto;display:block;margin-top:.5rem; } .insight { padding:1rem 1.25rem;border-radius:.75rem;background:var(--teal-soft);font-size:.875rem;color:#245b50; }
+    .formula { margin-top:1.5rem;font-size:.875rem;color:var(--muted); } .formula code { color:var(--ink);font: .85rem ui-monospace,monospace; }
+    .table-wrap { overflow:auto; margin-top:1rem; } table { width:100%;border-collapse:collapse;font-size:.8rem;text-align:right; } th,td { padding:.5rem;border-bottom:.0625rem solid var(--border); } th { color:var(--muted);font-weight:500; } th:first-child,td:first-child { text-align:left; }
+    details { margin-top:1rem; } summary { font-size:.8rem;color:var(--muted);cursor:pointer; } .footer { margin-top:1.5rem;font-size:.75rem;color:var(--muted); }
+    @media(max-width:58rem) { main { padding:1.5rem; } .layout { grid-template-columns:1fr; } .controls-grid { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 1.5rem; } }
+    @media(max-width:36rem) { main { padding:1rem; } .controls-grid { grid-template-columns:1fr; } .mechanism,.chart-panel { padding:1rem; } .result { padding:.75rem; } .result-number { font-size:1.5rem; } .chart-head { align-items:flex-start;flex-direction:column;gap:.5rem; } }
+  </style>
+</head>
+<body>
+<main>
+  <header class="intro"><span class="eyebrow">Interactive mechanism · synthetic data</span><h1>When work arrives faster than it leaves.</h1><p>Change the input and processing rates to see a queue form, clear, or stay stable. This simple batch model explains capacity; it is not a forecast of a real system.</p></header>
+  <div class="layout">
+    <section class="panel controls" aria-labelledby="controls-title"><h2 id="controls-title">Try a scenario</h2><div class="controls-grid">
+      <div class="control"><div class="control-head"><label for="arrival">Incoming work</label><output id="arrival-output" for="arrival">12 / hour</output></div><input id="arrival" type="range" min="2" max="24" step="1" value="12"><small>Items arriving at the start of each hour.</small></div>
+      <div class="control"><div class="control-head"><label for="capacity">Processing capacity</label><output id="capacity-output" for="capacity">9 / hour</output></div><input id="capacity" type="range" min="2" max="24" step="1" value="9"><small>Maximum items that can finish each hour.</small></div>
+      <div class="control"><div class="control-head"><label for="initial">Starting queue</label><output id="initial-output" for="initial">0 items</output></div><input id="initial" type="range" min="0" max="60" step="1" value="0"><small>Work already waiting before the first arrival.</small></div>
+      <div class="control"><div class="control-head"><label for="duration">Hours to simulate</label><output id="duration-output" for="duration">8 hours</output></div><input id="duration" type="range" min="4" max="12" step="1" value="8"><small>Each bar represents the end of one hour.</small></div>
+      <div class="control"><label for="pattern">Arrival pattern</label><select id="pattern"><option value="steady">Steady each hour</option><option value="burst">Double arrivals for two middle hours</option></select></div>
+    </div><div class="presets" role="group" aria-label="Load a demo scenario"><button id="preset-balanced" type="button">Balanced</button><button id="preset-buildup" type="button">Build-up</button><button id="preset-recovery" type="button">Recovery</button></div><p class="model-note">Keyboard: tab to a slider, then use arrow keys. All values are demo inputs and changes remain in this tab.</p></section>
+    <div class="visuals">
+      <section class="panel mechanism" aria-labelledby="mechanism-title"><h2 id="mechanism-title">Arrive → process → finish</h2><p id="mechanism-caption">The queue stores any work that does not fit within the hour's capacity.</p>
+        <svg class="flow" viewBox="0 0 620 190" role="img" aria-labelledby="flow-title flow-desc"><title id="flow-title">Capacity and waiting work</title><desc id="flow-desc">The diagrams update with the scenario controls. Read the numerical summary below for the full result.</desc>
+          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8 Z" fill="#14786d"/></marker></defs>
+          <path id="incoming-flow" d="M150 63 H228" fill="none" stroke="#14786d" stroke-width="4" marker-end="url(#arrow)"/>
+          <path id="outgoing-flow" d="M392 63 H470" fill="none" stroke="#14786d" stroke-width="4" marker-end="url(#arrow)"/>
+          <rect x="0" y="20" width="145" height="86" rx="12" fill="#e6f2ed"/><text class="node-title" x="18" y="47">Incoming / hour</text><text class="node-value" id="flow-arrival" x="18" y="81">12</text>
+          <rect x="234" y="20" width="152" height="86" rx="12" fill="#e6f2ed"/><text class="node-title" x="252" y="47">Capacity / hour</text><text class="node-value" id="flow-capacity" x="252" y="81">9</text>
+          <rect x="476" y="20" width="144" height="86" rx="12" fill="#e6f2ed"/><text class="node-title" x="494" y="47">Finished in run</text><text class="node-value" id="flow-finished" x="494" y="81">72</text>
+          <path d="M310 110 V136" fill="none" stroke="#a14f23" stroke-width="2"/>
+          <rect x="234" y="138" width="152" height="44" rx="9" fill="#f7ede4"/><rect id="queue-fill" x="234" y="138" width="30" height="44" rx="9" fill="#edd4bd"/>
+          <text x="248" y="165">Waiting</text><text class="node-value queue-value" id="flow-queue" x="370" y="168" text-anchor="end">24</text>
+        </svg>
+      </section>
+      <div class="results" aria-label="Simulation results"><section class="result"><h3>Finished</h3><p class="result-number" id="finished-result">72</p><small>Items completed during the run</small></section><section class="result"><h3>Still waiting</h3><p class="result-number" id="queue-result">24</p><small>Items in the final queue</small></section><section class="result"><h3>Capacity used</h3><p class="result-number" id="utilization-result">100%</p><small>Finished ÷ available processing</small></section></div>
+      <section class="panel chart-panel" aria-labelledby="chart-title"><div class="chart-head"><h2 id="chart-title">What happens each hour</h2><div class="legend" aria-hidden="true"><span>Waiting at hour end</span><span>Finished during hour</span></div></div><svg id="timeline" class="chart" viewBox="0 0 620 240" role="img" aria-labelledby="timeline-title timeline-description"><title id="timeline-title">Hourly queue and completed items</title><desc id="timeline-description">A bar chart of waiting and completed work. Expand the hourly values table for exact numbers.</desc><g id="chart-content"></g></svg><details><summary>Read the hourly values</summary><div class="table-wrap"><table><thead><tr><th scope="col">Hour</th><th scope="col">Arrived</th><th scope="col">Finished</th><th scope="col">Waiting</th></tr></thead><tbody id="hourly-table"></tbody></table></div></details></section>
+      <p class="insight" id="insight" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+  <p class="formula">Model rule: <code>finished = min(capacity, previous queue + arrivals)</code><br><code>next queue = previous queue + arrivals − finished</code>. Arrivals happen before processing within each hour. No randomness, delays, priorities, or abandoned work are modeled.</p>
+  <p class="footer">Generic, offline teaching example. SVG geometry and numerical outputs share the same model; no API, account, or external asset is used.</p>
+</main>
+<script>
+"use strict";
+const byId=id=>document.getElementById(id);
+const controlIds=["arrival","capacity","initial","duration","pattern"];
+function simulate({arrival,capacity,initial,duration,pattern}) {
+  let waiting=initial,totalFinished=0,totalArrived=0;
+  const hours=[],middle=Math.floor(duration/2);
+  for(let hour=1;hour<=duration;hour++) {
+    const arrived=arrival*(pattern==="burst"&&(hour===middle||hour===middle+1)?2:1);
+    const finished=Math.min(capacity,waiting+arrived);
+    waiting+=arrived-finished;totalFinished+=finished;totalArrived+=arrived;
+    hours.push({hour,arrived,finished,waiting});
+  }
+  return {hours,waiting,totalFinished,totalArrived,utilization:totalFinished/(capacity*duration)};
+}
+function inputs() { return {arrival:Number(byId("arrival").value),capacity:Number(byId("capacity").value),initial:Number(byId("initial").value),duration:Number(byId("duration").value),pattern:byId("pattern").value}; }
+function renderChart(result) {
+  const width=548,height=170,left=52,top=20;
+  const maximum=Math.max(4,...result.hours.flatMap(hour=>[hour.waiting,hour.finished]));
+  const step=width/result.hours.length,bar=Math.min(18,step*.28);
+  let svg="";
+  for(let tick=0;tick<=4;tick++) {
+    const value=maximum*tick/4,y=top+height-height*tick/4;
+    svg+=`<line x1="${left}" y1="${y}" x2="${left+width}" y2="${y}" stroke="#dde4de"/><text x="${left-9}" y="${y+4}" text-anchor="end">${Math.round(value)}</text>`;
+  }
+  for(const hour of result.hours) {
+    const center=left+step*(hour.hour-.5),queued=height*hour.waiting/maximum,finished=height*hour.finished/maximum;
+    svg+=`<rect x="${center-bar-1}" y="${top+height-queued}" width="${bar}" height="${queued}" rx="2" fill="#a14f23"/><rect x="${center+1}" y="${top+height-finished}" width="${bar}" height="${finished}" rx="2" fill="#14786d"/><text x="${center}" y="${top+height+21}" text-anchor="middle">${hour.hour}</text>`;
+  }
+  svg+=`<text x="${left+width}" y="235" text-anchor="end">Hour</text><text x="4" y="13">Items</text>`;
+  byId("chart-content").innerHTML=svg;
+  byId("hourly-table").innerHTML=result.hours.map(hour=>`<tr><th scope="row">${hour.hour}</th><td>${hour.arrived}</td><td>${hour.finished}</td><td>${hour.waiting}</td></tr>`).join("");
+}
+function render() {
+  const values=inputs(),result=simulate(values);
+  byId("arrival-output").textContent=values.arrival+" / hour";
+  byId("capacity-output").textContent=values.capacity+" / hour";
+  byId("initial-output").textContent=values.initial+" items";
+  byId("duration-output").textContent=values.duration+" hours";
+  byId("flow-arrival").textContent=values.arrival+(values.pattern==="burst"?"–"+values.arrival*2:"");
+  byId("flow-capacity").textContent=values.capacity;
+  byId("flow-finished").textContent=result.totalFinished;
+  byId("flow-queue").textContent=result.waiting;
+  byId("incoming-flow").setAttribute("stroke-width",String(2+values.arrival/4));
+  byId("outgoing-flow").setAttribute("stroke-width",String(2+result.totalFinished/values.duration/4));
+  byId("queue-fill").setAttribute("width",String(152*result.waiting/Math.max(1,values.initial+result.totalArrived)));
+  byId("finished-result").textContent=result.totalFinished;
+  byId("queue-result").textContent=result.waiting;
+  byId("utilization-result").textContent=Math.round(result.utilization*100)+"%";
+  const delta=result.waiting-values.initial;
+  let explanation=delta>0?`The queue grew by ${delta} items. More items arrived than finished during this run.`:delta<0?`The queue shrank by ${-delta} items. Spare capacity processed some of the starting work.`:result.waiting===0?"The queue is empty at the end. Processing kept up with the arrivals in this run.":"The final queue equals the starting queue. Incoming and finished work balance over this run.";
+  if(values.pattern==="burst") explanation+=" Two middle hours have double arrivals. Unused capacity in an earlier hour cannot carry over to a later hour.";
+  byId("insight").textContent=explanation;
+  byId("flow-desc").textContent=`${result.totalArrived} items arrive across ${values.duration} hours, ${result.totalFinished} finish, and ${result.waiting} wait at the end. Starting queue: ${values.initial}.`;
+  renderChart(result);
+}
+function preset(arrival,capacity,initial) { byId("arrival").value=arrival;byId("capacity").value=capacity;byId("initial").value=initial;byId("duration").value=8;byId("pattern").value="steady";render(); }
+controlIds.forEach(id=>byId(id).addEventListener(id==="pattern"?"change":"input",render));
+byId("preset-balanced").addEventListener("click",()=>preset(10,10,0));
+byId("preset-buildup").addEventListener("click",()=>preset(14,8,0));
+byId("preset-recovery").addEventListener("click",()=>preset(6,12,24));
+render();
+</script>
+</body>
+</html>

@@ -2,21 +2,29 @@
 
 Read this when creating a new design or adapting one to an existing brand.
 
-## Capture the brief that changes the artwork
+## Capture the brief that changes the result
 
-Record the object's purpose, physical dimensions and sides, copy language, audience, brand sources, required copy, destination links, and requested outputs. Keep card copy language separate from factory-instruction language: an English insert can have a Chinese production sheet. Use existing conversation decisions rather than asking again.
+Record the purpose, audience, medium, content language, brand sources, required copy, and requested outputs. Use existing conversation decisions rather than asking again. Branch the brief according to the deliverable:
+
+| Medium | Decisions that affect implementation |
+| --- | --- |
+| Screen interface | Existing repository/platform, target viewports, user journey, components, relevant interaction states |
+| Interactive explanation | Question or relationship to explain, data sources, inputs and model assumptions, presentation/viewing format |
+| Print collateral | Physical dimensions, sides/folds, destination links if needed, production specifications |
+
+Keep artifact language separate from supporting-document language: an English interface or insert can have Chinese implementation or factory notes.
 
 Distinguish three kinds of information in a small brief or manifest:
 
-- **Supplied:** approved wording, dimensions, assets, and destination URLs.
-- **Observed:** values extracted from the current brand website or source file, with their source.
-- **Proposed:** choices such as stock, finish, size, or an unprofiled print-color recipe that still need review.
+- **Supplied:** approved wording, assets, requirements, data, and destination URLs.
+- **Observed:** values extracted from the current brand website, repository, or source file, with their source.
+- **Proposed:** layout choices, simulated data/model assumptions, or print specifications that still need review.
 
-A design discussion can proceed with clearly labeled assumptions. A production export cannot silently turn an unresolved size, QR destination, or copy choice into an approved value. Ask only for information that the next deliverable truly depends on; continue independent layout work.
+A design discussion can proceed with clearly labeled assumptions. A final deliverable cannot silently turn an unresolved requirement or hypothetical datum into an approved value. Ask only for information that the next deliverable truly depends on; continue independent work.
 
 ## Derive a visual vocabulary from evidence
 
-When the user provides a website URL, inspect the actual site rather than assuming a style from the product category. Use accessible source, screenshots, computed styles, and original assets as appropriate. Look at enough of the site to distinguish shared brand rules from one campaign treatment.
+When the user provides a website URL, inspect the actual site rather than assuming a style from the product category. Use accessible source, screenshots, computed styles, and original assets as appropriate. In an existing repository, inspect its tokens, components, and related views first. Distinguish shared brand rules from one campaign treatment.
 
 Extract a compact set of tokens:
 
@@ -32,14 +40,14 @@ Reference screenshots support direction; they do not establish an exact color sp
 
 Record asset provenance and font license status. A publicly served font is not automatically licensed for redistribution in a public skill repository. Project output may use a permitted font; the reusable skill should use generic examples or assets with clear redistribution rights. Do not commit user-brand assets or proprietary/system fonts merely because they are available locally.
 
-## Make the copy useful at physical size
+## Fit content to the medium
 
-Prioritize one primary message and one action. Use the available area to establish hierarchy before adding decoration. Test the text at the intended printed dimensions; a readable enlarged browser view can conceal tiny production text.
+Establish hierarchy around the user's task or explanation. A landing page needs a coherent reading journey; a component needs understandable states; a diagram needs legible relationships; print needs readable text at actual physical size. Do not apply a card's one-headline composition to every medium.
 
-For a QR destination, prefer an existing user-supplied or verified brand-owned durable URL. If asked to retrieve an invitation, inspect the actual invitation and its expiry when accessible. Do not invent a plausible invite, replace a verified target, or create a new invitation merely to populate a mockup. Until a target is known, label a placeholder explicitly and exclude it from final production output.
+When a QR is part of the brief, prefer an existing supplied or verified durable URL. If asked to retrieve an invitation, inspect its target and expiry when accessible. Do not invent a plausible invite or create one merely to populate a mockup. Label an unresolved placeholder and exclude it from final production output. A digital design does not require a QR by default.
 
-When offering variants, keep size, copy, and QR target fixed unless the comparison specifically concerns those choices. Give each variant an identifiable name and preserve the selected version in the export manifest.
+When offering variants, keep content, data, and behavior fixed unless the comparison concerns those choices. Identify each variant and preserve the selected version in the delivery record.
 
 ## Reusable means configurable
 
-A dark palette, bright accent, sharp corners, and a 90 × 55 mm format can fit an industrial card brief. Those are project decisions, not defaults for every brand. Adapt the palette, format, language, and visual density to the current brief.
+Adapt palette, format, language, density, and interaction to the brief. A print palette or card size is not a universal template; millimeter units and CMYK belong to the print branch.

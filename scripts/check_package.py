@@ -14,6 +14,8 @@ def check(root: Path) -> dict:
         'scripts/render_design.py', 'references/renderer.md',
         'references/brand-context.md', 'references/interaction-preview.md',
         'references/print-production.md', 'references/publishing-delivery.md',
+        'references/digital-interfaces.md', 'references/interactive-explainers.md',
+        'assets/interactive-interface.html', 'assets/interactive-explainer.html',
     ]
     errors = [f'Missing {p}' for p in required if not (skill / p).is_file()]
     if errors:
@@ -22,7 +24,7 @@ def check(root: Path) -> dict:
     match = re.match(r'^---\n(.*?)\n---\n', entry, re.S)
     if not match or 'name: code-driven-design' not in match.group(1) or not re.search(r'^description:\s*\S', match.group(1), re.M):
         raise ValueError('Invalid skill frontmatter')
-    for ref in re.findall(r'\]\((references/[^)]+)\)', entry):
+    for ref in re.findall(r'\]\(((?:references|assets)/[^)]+)\)', entry):
         if not (skill / ref).is_file():
             raise ValueError(f'Broken skill reference: {ref}')
     portable = json.loads((root / 'plugin.json').read_text(encoding='utf-8'))

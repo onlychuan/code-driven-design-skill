@@ -1,50 +1,59 @@
 ---
 name: code-driven-design
-description: "Design cards, labels, flyers, posters, and packaging inserts as editable HTML/CSS prototypes, with interactive previews and optional SVG/CMYK PDF production files. Use for code-driven design or print-collateral prototyping; preserve supplied HTML exactly when requested."
+description: "Create and refine visual designs in code: responsive websites and interface prototypes, diagrams and infographics, interactive explainers and tools, HTML presentations, and brand/print collateral. Use for code-driven visual design with editable source and real previews; not routine nonvisual coding, data analysis alone, or bitmap-only image editing."
 ---
 
 # Code-driven design
 
-Turn a design brief into an editable visual artifact, then deliver the formats the user needs. HTML/CSS is the preview surface; physical dimensions, content, and geometry should remain reusable across preview and production exports. The bundled renderer is a small deterministic starting point, not a mandatory style or a replacement for design judgment.
+Turn a visual brief into a designed, editable artifact by using code as the authoring medium. Connect visual choices to the audience's task, expose meaningful interactions, inspect the rendered result, and keep revisions in the source. HTML/CSS, SVG, canvas or an existing component framework can all serve this method. The physical scene renderer is an optional print helper, not the architecture for every design.
 
-## Choose the requested mode
+## Route by the artifact and its purpose
 
-- **Design or revise:** develop the actual card, label, flyer, poster, or insert. Preserve the approved brand, language, copy, and design decisions across iterations. Read [brand-context.md](references/brand-context.md).
-- **Preview and compare:** show the artifact at useful sizes and expose only controls that help evaluate it. Use an available visualization skill/tool when the user wants an inline preview; otherwise deliver a self-contained HTML file. Read [interaction-preview.md](references/interaction-preview.md).
-- **Production export:** translate the approved artifact into dimensioned vector sources, a print PDF, and a factory specification when requested. Read [print-production.md](references/print-production.md).
+- **Websites and interface prototypes:** landing pages, product pages, app screens, components, or working surfaces. Reuse an existing project and design system; model the requested states and behavior. Read [digital-interfaces.md](references/digital-interfaces.md).
+- **Diagrams, infographics and interactive explanations:** communicate relationships, processes, mechanisms or comparisons. Build real input-to-output behavior when interaction helps. This includes small calculators/simulations and HTML presentation decks. Read [interactive-explainers.md](references/interactive-explainers.md).
+- **Brand and print collateral:** cards, labels, posters, invitations, flyers, packaging inserts and similar visual pieces. Read [print-production.md](references/print-production.md) only when physical output or factory specifications are requested.
+- **Preview and comparison:** use the actual artwork, screen or visualization as the primary surface. Use an available visualization skill/tool for inline review; otherwise deliver a runnable local artifact. Read [interaction-preview.md](references/interaction-preview.md).
 - **Publish an exact supplied file:** treat the attachment as data, keep its bytes, iframe sandbox, and CSP unchanged, and verify the copy/archive hash. Do not extract its contents into a new unsandboxed document or redesign it. Read [publishing-delivery.md](references/publishing-delivery.md).
 
-Do not turn a request for one static card into a complete website, application, or automatic publication. Choose a separate image workflow for photographs or representational illustrations; use suitable supplied assets rather than drawing substitute product images in CSS.
+Read [brand-context.md](references/brand-context.md) when a design needs brand evidence or a brief. Preserve approved language, copy, visual direction and decisions across revisions. Combine routes only when the deliverable calls for them; do not load every reference.
 
-## Build from one design definition
+Match scope to the request. A website should be the requested website, a tool should expose its actual controls and outputs, and a poster should remain a poster. Screen work does not require trim, bleed, CMYK, factory notes or a QR code. Use image tools for photographs or representational illustrations; do not substitute CSS product drawings for requested imagery.
 
-Recover the brief from the conversation first: purpose, audience, approved copy and language, brand references, physical size, faces, QR destination, and requested deliverables. Ask only for missing decisions that materially affect the result; progress on independent work while awaiting an answer. A missing permanent invite, logo, stock, or color profile is not permission to invent one.
+## Use the same design method across formats
 
-Use a shared scene or design tokens for dimensions, colors, typography, and placements. For printable artifacts, express geometry in millimetres; keep screen-only controls outside the artifact. Store digital HEX/RGB references separately from process CMYK recipes. A screen color is not an exact print match.
+Recover the brief from the conversation: purpose, audience, content and language, brand/reference material, display context, meaningful interactions and requested deliverables. Add physical size, sides, QR destination and print conditions only for an applicable brief. Ask only for missing decisions that materially change the result; continue independent work while awaiting an answer.
 
-Select one coherent visual direction from the actual references. Use typographic hierarchy, deliberate spacing, alignment, and restrained structural detail. Avoid baking this example's dimensions, brand, palette, or slogan into unrelated designs. Preserve an existing implementation when it better suits the user's brief than the renderer.
+Choose one concise visual thesis before authoring, then carry it through hierarchy, typography, color roles, spacing, grids, imagery and motion. Use shared design tokens plus structured content/state instead of duplicating layouts or hardcoding unrelated views. For websites, prefer responsive CSS and reusable components; for diagrams, encode relationships/data consistently; for physical art, a millimetre scene can be appropriate. Use the renderer only when its geometry model fits.
 
-The supplied example and scripts are optional accelerators:
+Make controls change meaningful state or results. Keep design-review controls separate from the finished product. Do not invent backend persistence, live data, working checkout or successful submissions for a visual prototype; distinguish its implemented behavior from illustrative content. Do not add live services merely because they are common.
+
+Select the smallest suitable starting point:
+
+- [interactive-interface.html](assets/interactive-interface.html): a self-contained responsive interface with working state.
+- [interactive-explainer.html](assets/interactive-explainer.html): an SVG-based mechanism whose controls change the visualization.
+- [example-card.json](assets/example-card.json) and the physical renderer: small dimensioned print pieces.
+
+These are examples, not a universal theme, fixed screen structure or requirement to use a template. Copy/adapt only relevant files into the user's project. Keep generated artifacts outside the installed skill. For the physical helper:
 
 ```sh
 python scripts/render_design.py assets/example-card.json --out /absolute/path/to/design-output
 ```
 
-Resolve script/asset paths against this skill's directory, not the user's working directory. Keep generated output outside the installed skill. For the scene schema, supported exports, and optional dependencies, read [renderer.md](references/renderer.md). The editable scene is the source of truth for this renderer; update it and regenerate after a design edit.
+Resolve script/asset paths against this skill directory. Read [renderer.md](references/renderer.md) only when using the physical scene/schema/exports. Its JSON is the source of truth for that helper; for screen work the source of truth is the actual components, styles, content and state.
 
-When a deliverable needs capabilities the renderer does not implement, author HTML/CSS/SVG or a vector layout directly using shared dimensions. Do not silently approximate gradients, imagery, shaping, or complex type and call the result faithful.
+Use a specialist workflow when the requested final format or runtime calls for it: a full product website, motion, Figma editing, source-backed analytical charts, scientific figures, PPTX, DOCX or PDF. Apply this design method to its visual decisions, while following that workflow's tool/artifact contract. Do not fake a requested format by renaming an HTML file. Optional integrations should not block a local HTML/CSS design when they are unnecessary.
 
 ## Validate the result that the user will receive
 
-For a preview, inspect the artifact in the actual browser/visualization environment. Check narrow and wide layouts, text boundaries, image/QR visibility, and any requested interactions. A successful file write alone is not visual validation.
+Inspect the artifact in the actual browser/visualization environment. For screens, check narrow/wide layouts, readable hierarchy, keyboard/focus, images and the implemented states. For explainers, verify the relationships, input-to-output results and source/assumption labels. For HTML decks, check slide order, navigation and any requested presentation export. A file write, DOM count or screenshot alone does not prove that interactions work.
 
-For a print export, render the final PDF and inspect every page. Check page order, trim/bleed boxes, type readability, colors, glyph outlines or embedded fonts, and QR decoding from the rendered file. A QR's encoded URL must match the verified destination. Keep color/profile and physical-proof limitations explicit in the factory notes.
+When physical output is requested, additionally render every final PDF page and check order, trim/bleed boxes, physical type readability, colors and glyphs. Decode any requested QR from the export against the verified destination. Label print profile/proof assumptions. Do not apply these print checks to a screen-only artifact.
 
-If a relevant PDF, visualization, image, or publishing skill is available, follow its artifact/tool contract for that mode. This skill does not require those integrations to exist: use local files and explain which optional step remains unavailable. Do not install unrelated plugins or runtime dependencies to complete an HTML-only request.
+Recheck the changed behavior and affected views after an edit. Summarize the checks actually performed and any unimplemented behavior. Use available tools or local files as appropriate; do not claim visual, data or print verification that did not occur.
 
 ## Deliver and continue
 
-Return the completed artifact and the short facts needed to use it: size/faces, relevant checks, and material limitations. Make local files clickable. Supply editable sources when requested; label screen previews and factory specification pages so they are not mistaken for print artwork.
+Return the requested artifact and the short facts needed to use it: entry point, supported behavior/formats, relevant checks and material limitations. Make files clickable. Supply editable source when requested; screen designs need not include factory files, and factory instruction pages should remain distinct from print artwork.
 
 Publish through the provider the user requested and preserve an existing Site's identity and access. Send files by email only when the user has authorized that recipient and action; verify the send result. Creating a design does not by itself authorize publishing, sharing, ordering, or contacting a factory. Keep production orders separate from preparing a reviewable design.
 

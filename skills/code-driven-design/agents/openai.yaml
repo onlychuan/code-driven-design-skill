@@ -1,4 +1,4 @@
 interface:
   display_name: "代码驱动设计"
-  short_description: "Create interactive design prototypes and print-ready files"
-  default_prompt: "Use $code-driven-design to turn my brief and brand references into an editable design prototype and the requested production files."
+  short_description: "Design interfaces, explainers, presentations and print visuals"
+  default_prompt: "Use $code-driven-design to turn my visual brief into editable code, a working preview, and the delivery format I need."
