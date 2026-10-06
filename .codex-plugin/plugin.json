@@ -1,0 +1,14 @@
+{
+  "name": "code-driven-design-skill",
+  "version": "1.0.0",
+  "description": "Design editable HTML/CSS collateral and export dimensioned vector production files.",
+  "author": { "name": "onlychuan" },
+  "homepage": "https://github.com/onlychuan/code-driven-design-skill",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "代码驱动设计",
+    "shortDescription": "交互原型与矢量印刷交付",
+    "developerName": "onlychuan",
+    "category": "Productivity"
+  }
+}

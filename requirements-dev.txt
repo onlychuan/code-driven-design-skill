@@ -1,0 +1,4 @@
+-r requirements-print.txt
+zxing-cpp>=2.2,<3
+jsonschema>=4.20,<5
+PyYAML>=6,<7

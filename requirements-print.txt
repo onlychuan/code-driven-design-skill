@@ -1,0 +1,3 @@
+reportlab>=4.2,<5
+fonttools[woff]>=4.50,<5
+pypdf>=5,<7
